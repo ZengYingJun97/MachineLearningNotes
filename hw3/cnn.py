@@ -7,7 +7,7 @@ import torchvision.transforms as transforms
 from torch.utils.data import DataLoader, Dataset
 import time
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 def readFile(path, label):
@@ -162,7 +162,7 @@ for epoch in range(num_epoch):
         train_acc += np.sum(np.argmax(train_pred.cpu().data.numpy(), axis=1) == data[1].numpy())
         train_loss += batch_loss.item()
 
-test_set = ImgDataset(test_x, transforms=test_transform)
+test_set = ImgDataset(test_x, transform=test_transform)
 test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False)
 
 model_best.eval()
